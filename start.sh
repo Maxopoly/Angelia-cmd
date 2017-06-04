@@ -1,1 +1,1 @@
-java -jar target/Angelia-Cmd.jar example@gmail.com password play.devotedmc.com
+java -jar target/Angelia-Cmd.jar -user example@gmail.com -password squidLover69 -ip play.devotedmc.com
