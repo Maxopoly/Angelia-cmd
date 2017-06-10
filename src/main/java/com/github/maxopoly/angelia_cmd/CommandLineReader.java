@@ -1,11 +1,12 @@
 package com.github.maxopoly.angelia_cmd;
 
-import com.github.maxopoly.angeliacore.model.Location;
-
+import com.github.maxopoly.angeliacore.actions.ActionQueue;
+import com.github.maxopoly.angeliacore.actions.actions.DigDown;
 import com.github.maxopoly.angeliacore.connection.ServerConnection;
 import com.github.maxopoly.angeliacore.connection.play.packets.out.ChatPacket;
 import com.github.maxopoly.angeliacore.connection.play.packets.out.ClientStatusPacket;
 import com.github.maxopoly.angeliacore.connection.play.packets.out.MovePacket;
+import com.github.maxopoly.angeliacore.model.Location;
 import java.io.Console;
 import java.io.IOException;
 import org.apache.logging.log4j.Logger;
@@ -72,6 +73,7 @@ public class CommandLineReader {
 
 	private void handleCommand(String cmd) {
 		String[] args = cmd.split(" ");
+		ActionQueue queue = connection.getActionQueue();
 		try {
 			switch (args[0].toLowerCase()) {
 				case "respawn":
@@ -80,6 +82,9 @@ public class CommandLineReader {
 					break;
 				case "status":
 					logger.info(connection.getPlayerStatus().toString());
+					break;
+				case "digdown":
+					queue.queue(new DigDown(connection, connection.getPlayerStatus().getLocation(), 2, 12));
 					break;
 				case "location":
 					logger.info(connection.getPlayerStatus().getLocationString());

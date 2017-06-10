@@ -1,19 +1,23 @@
 package com.github.maxopoly.angelia_cmd;
 
 import com.github.maxopoly.angeliacore.actions.ActionQueue;
-import com.github.maxopoly.angeliacore.actions.BreakAction;
-import com.github.maxopoly.angeliacore.actions.EatingAction;
-import com.github.maxopoly.angeliacore.actions.MovementAction;
-import com.github.maxopoly.angeliacore.api.MovementDirection;
+import com.github.maxopoly.angeliacore.actions.actions.BreakBlock;
+import com.github.maxopoly.angeliacore.actions.actions.Eat;
+import com.github.maxopoly.angeliacore.actions.actions.MoveTo;
+import com.github.maxopoly.angeliacore.actions.actions.PlaceBlock;
+import com.github.maxopoly.angeliacore.actions.actions.inventory.ChangeSelectedItem;
 import com.github.maxopoly.angeliacore.connection.ServerConnection;
 import com.github.maxopoly.angeliacore.event.AngeliaEventHandler;
 import com.github.maxopoly.angeliacore.event.AngeliaListener;
 import com.github.maxopoly.angeliacore.event.events.ActionQueueEmptiedEvent;
 import com.github.maxopoly.angeliacore.event.events.HungerChangeEvent;
+import com.github.maxopoly.angeliacore.model.BlockFace;
 import com.github.maxopoly.angeliacore.model.ItemStack;
 import com.github.maxopoly.angeliacore.model.Location;
+import com.github.maxopoly.angeliacore.model.Material;
+import com.github.maxopoly.angeliacore.model.MovementDirection;
 import com.github.maxopoly.angeliacore.model.inventory.PlayerInventory;
-import com.github.maxopoly.angeliacore.util.fields.HorizontalField;
+import com.github.maxopoly.angeliacore.util.HorizontalField;
 import java.util.Iterator;
 
 public class WheatHarvest implements AngeliaListener {
@@ -27,19 +31,27 @@ public class WheatHarvest implements AngeliaListener {
 			MovementDirection startingDirection, MovementDirection secondaryDirection, boolean snakeLines) {
 		this.connection = connection;
 		this.field = new HorizontalField(lowerX, upperX, lowerZ, upperZ, y, startingDirection, secondaryDirection,
-				snakeLines);
+				snakeLines, 1);
 		this.locIterator = field.iterator();
 		this.queue = connection.getActionQueue();
 		connection.getEventHandler().registerListener(this);
+		queueEmpty(null);
 	}
 
 	@AngeliaEventHandler
 	public void queueEmpty(ActionQueueEmptiedEvent e) {
 		if (locIterator.hasNext()) {
 			Location target = locIterator.next();
-			queue.queue(new MovementAction(connection, target.getBlockCenterXZ(), MovementAction.SPRINTING_SPEED, connection
+			queue.queue(new MoveTo(connection, target.getBlockCenterXZ(), MoveTo.SPRINTING_SPEED, connection
 					.getTicksPerSecond()));
-			queue.queue(new BreakAction(connection, target, 0, (byte) 1));
+			Location wheatLoc = new Location((int) target.getX(), (int) target.getY() + 1, (int) target.getZ());
+			queue.queue(new BreakBlock(connection, wheatLoc, 1, BlockFace.TOP));
+			PlayerInventory inv = connection.getPlayerStatus().getPlayerInventory();
+			int seedSlot = inv.getHotbar().findSlot(new ItemStack(Material.SEEDS));
+			if (seedSlot != -1 && seedSlot != connection.getPlayerStatus().getSelectedHotbarSlot()) {
+				queue.queue(new ChangeSelectedItem(connection, seedSlot));
+			}
+			queue.queue(new PlaceBlock(connection, wheatLoc, BlockFace.TOP));
 		} else {
 			connection.getEventHandler().unregisterListener(this);
 		}
@@ -51,13 +63,13 @@ public class WheatHarvest implements AngeliaListener {
 			return;
 		}
 		PlayerInventory inv = connection.getPlayerStatus().getPlayerInventory();
-		int foodSlot = inv.findHotbarSlot(new ItemStack((short) 297));
+		int foodSlot = inv.getHotbar().findSlot(new ItemStack(Material.BREAD));
 		if (foodSlot == -1) {
 			// none found
 			return;
 		}
-		connection.getPlayerStatus().setSelectedHotbarSlot(foodSlot);
-		queue.queue(new EatingAction(connection, 20));
+		queue.queue(new ChangeSelectedItem(connection, foodSlot));
+		queue.queue(new Eat(connection, 20));
 	}
 
 }
