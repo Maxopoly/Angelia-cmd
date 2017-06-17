@@ -59,12 +59,12 @@ public class CommandHandler {
 			args = Arrays.copyOfRange(args, 1, args.length);
 		}
 		if (args.length < comm.minimumArgs()) {
-			logger.warn(args[0] + " requires at least " + comm.minimumArgs() + " parameter");
+			logger.warn(comm.getIdentifier() + " requires at least " + comm.minimumArgs() + " parameter");
 			logger.info("Usage: " + comm.getUsage());
 			return;
 		}
 		if (args.length > comm.maximumArgs()) {
-			logger.warn(args[0] + " accepts at maximum " + comm.maximumArgs() + " parameter");
+			logger.warn(comm.getIdentifier() + " accepts at maximum " + comm.maximumArgs() + " parameter");
 			logger.info("Usage: " + comm.getUsage());
 			return;
 		}
