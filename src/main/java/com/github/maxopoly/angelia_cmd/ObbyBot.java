@@ -1,16 +1,15 @@
 package com.github.maxopoly.angelia_cmd;
 
-import com.github.maxopoly.angeliacore.actions.actions.inventory.PickHotbarItemByType;
-
-import com.github.maxopoly.angeliacore.actions.actions.inventory.RefillHotbarWithType;
 import com.github.maxopoly.angeliacore.actions.ActionQueue;
-import com.github.maxopoly.angeliacore.actions.actions.ChangeViewingDirection;
+import com.github.maxopoly.angeliacore.actions.actions.LookAt;
 import com.github.maxopoly.angeliacore.actions.actions.Eat;
 import com.github.maxopoly.angeliacore.actions.actions.Logoff;
 import com.github.maxopoly.angeliacore.actions.actions.LookAtAndBreakBlock;
 import com.github.maxopoly.angeliacore.actions.actions.MoveTo;
 import com.github.maxopoly.angeliacore.actions.actions.PlaceBlock;
 import com.github.maxopoly.angeliacore.actions.actions.Wait;
+import com.github.maxopoly.angeliacore.actions.actions.inventory.PickHotbarItemByType;
+import com.github.maxopoly.angeliacore.actions.actions.inventory.RefillHotbarWithType;
 import com.github.maxopoly.angeliacore.connection.ServerConnection;
 import com.github.maxopoly.angeliacore.event.AngeliaEventHandler;
 import com.github.maxopoly.angeliacore.event.AngeliaListener;
@@ -20,6 +19,7 @@ import com.github.maxopoly.angeliacore.event.events.HungerChangeEvent;
 import com.github.maxopoly.angeliacore.model.BlockFace;
 import com.github.maxopoly.angeliacore.model.ItemStack;
 import com.github.maxopoly.angeliacore.model.Location;
+import com.github.maxopoly.angeliacore.model.Material;
 import com.github.maxopoly.angeliacore.model.PlayerStatus;
 
 public class ObbyBot implements AngeliaListener {
@@ -54,30 +54,31 @@ public class ObbyBot implements AngeliaListener {
 			return;
 		}
 		moveStringAsNeeded();
-		queue.queue(new ChangeViewingDirection(connection, blockBelowObby));
-		queue.queue(new PickHotbarItemByType(connection, (short) 287)); // string
+		queue.queue(new LookAt(connection, blockBelowObby));
+		queue.queue(new PickHotbarItemByType(connection, Material.STRING));// string
 		queue.queue(new PlaceBlock(connection, obbyBlock, BlockFace.TOP));
 		pressButton();
 		queue.queue(new Wait(connection, 20));
 		pressButton();
-		queue.queue(new PickHotbarItemByType(connection, (short) 278)); // diamond pick
+		queue.queue(new PickHotbarItemByType(connection, Material.DIAMOND_PICKAXE)); // diamond pick
 		// 189 break ticks
 		queue.queue(new LookAtAndBreakBlock(connection, obbyBlock, 190));
 
 	}
 
 	private void pressButton() {
-		queue.queue(new ChangeViewingDirection(connection, buttonBlock.getBlockCenter()));
+		queue.queue(new LookAt(connection, buttonBlock.getBlockCenter()));
 		queue.queue(new PlaceBlock(connection, buttonBlock, BlockFace.SOUTH));
 	}
 
 	private void moveStringAsNeeded() {
-		int slot = connection.getPlayerStatus().getPlayerInventory().findHotbarSlotByType(new ItemStack((short) 287));
+		int slot = connection.getPlayerStatus().getPlayerInventory().getHotbar()
+				.findSlotByType(new ItemStack(Material.DIAMOND_PICKAXE));
 		if (slot != -1) {
 			// still some there
 			return;
 		}
-		queue.queue(new RefillHotbarWithType(connection, (short) 287));
+		queue.queue(new RefillHotbarWithType(connection, Material.DIAMOND_PICKAXE));
 	}
 
 	@AngeliaEventHandler
@@ -93,7 +94,7 @@ public class ObbyBot implements AngeliaListener {
 		if (e.getNewValue() > 7) {
 			return;
 		}
-		queue.queue(new PickHotbarItemByType(connection, (short) 297)); // bread
+		queue.queue(new PickHotbarItemByType(connection, Material.BREAD)); // bread
 		queue.queue(new Eat(connection, 20));
 	}
 

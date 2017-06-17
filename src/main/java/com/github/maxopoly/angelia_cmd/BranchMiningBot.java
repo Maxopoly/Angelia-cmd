@@ -1,9 +1,5 @@
 package com.github.maxopoly.angelia_cmd;
 
-import com.github.maxopoly.angeliacore.actions.actions.inventory.PickHotbarItemByType;
-
-import com.github.maxopoly.angeliacore.actions.actions.inventory.RefillHotbarWithType;
-import com.github.maxopoly.angeliacore.actions.actions.inventory.ChangeSelectedItem;
 import com.github.maxopoly.angeliacore.actions.ActionQueue;
 import com.github.maxopoly.angeliacore.actions.CodeAction;
 import com.github.maxopoly.angeliacore.actions.actions.Eat;
@@ -12,6 +8,9 @@ import com.github.maxopoly.angeliacore.actions.actions.LookAtAndBreakBlock;
 import com.github.maxopoly.angeliacore.actions.actions.LookAtAndPlaceBlock;
 import com.github.maxopoly.angeliacore.actions.actions.MoveTo;
 import com.github.maxopoly.angeliacore.actions.actions.Wait;
+import com.github.maxopoly.angeliacore.actions.actions.inventory.ChangeSelectedItem;
+import com.github.maxopoly.angeliacore.actions.actions.inventory.PickHotbarItemByType;
+import com.github.maxopoly.angeliacore.actions.actions.inventory.RefillHotbarWithType;
 import com.github.maxopoly.angeliacore.connection.ServerConnection;
 import com.github.maxopoly.angeliacore.event.AngeliaEventHandler;
 import com.github.maxopoly.angeliacore.event.AngeliaListener;
@@ -21,6 +20,7 @@ import com.github.maxopoly.angeliacore.event.events.HungerChangeEvent;
 import com.github.maxopoly.angeliacore.event.events.TeleportByServerEvent;
 import com.github.maxopoly.angeliacore.model.ItemStack;
 import com.github.maxopoly.angeliacore.model.Location;
+import com.github.maxopoly.angeliacore.model.Material;
 import com.github.maxopoly.angeliacore.model.MovementDirection;
 import com.github.maxopoly.angeliacore.model.inventory.PlayerInventory;
 import com.github.maxopoly.angeliacore.util.HorizontalField;
@@ -38,14 +38,14 @@ public class BranchMiningBot implements AngeliaListener {
 	private Iterator<Location> locIterator;
 	private ActionQueue queue;
 	private List<Location> lastLocations;
-	private short toolID;
+	private Material tool;
 
 	public BranchMiningBot(ServerConnection connection, int lowerX, int upperX, int lowerZ, int upperZ, int y,
-			MovementDirection startingDirection, MovementDirection secondaryDirection, boolean snakeLines, short toolID) {
+			MovementDirection startingDirection, MovementDirection secondaryDirection, boolean snakeLines, Material tool) {
 		this.connection = connection;
 		this.field = new HorizontalField(lowerX, upperX, lowerZ, upperZ, y, startingDirection, secondaryDirection,
 				snakeLines, 3);
-		this.toolID = toolID;
+		this.tool = tool;
 		this.locIterator = field.iterator();
 		this.lastLocations = new LinkedList<Location>();
 		this.queue = connection.getActionQueue();
@@ -60,8 +60,8 @@ public class BranchMiningBot implements AngeliaListener {
 	@AngeliaEventHandler
 	public void queueEmpty(ActionQueueEmptiedEvent e) {
 		if (locIterator.hasNext()) {
-			queue.queue(new RefillHotbarWithType(connection, toolID));
-			final PickHotbarItemByType picker = new PickHotbarItemByType(connection, toolID);
+			queue.queue(new RefillHotbarWithType(connection, tool));
+			final PickHotbarItemByType picker = new PickHotbarItemByType(connection, tool);
 			queue.queue(picker);
 			queue.queue(new CodeAction(connection) {
 
@@ -105,7 +105,7 @@ public class BranchMiningBot implements AngeliaListener {
 			return;
 		}
 		PlayerInventory inv = connection.getPlayerStatus().getPlayerInventory();
-		int seedSlot = inv.findHotbarSlotByType(new ItemStack((short) 50));
+		int seedSlot = inv.getHotbar().findSlotByType(new ItemStack(Material.TORCH));
 		if (seedSlot != -1 && seedSlot != connection.getPlayerStatus().getSelectedHotbarSlot()) {
 			queue.queue(new Wait(connection, 5));
 			queue.queue(new ChangeSelectedItem(connection, seedSlot));
@@ -127,7 +127,7 @@ public class BranchMiningBot implements AngeliaListener {
 		if (e.getNewValue() > 7) {
 			return;
 		}
-		queue.queue(new PickHotbarItemByType(connection, (short) 297)); // bread
+		queue.queue(new PickHotbarItemByType(connection, Material.BREAD)); // bread
 		queue.queue(new Eat(connection, 20));
 	}
 
@@ -137,8 +137,8 @@ public class BranchMiningBot implements AngeliaListener {
 		if (lastLocations.contains(oldBlockLoc)) {
 			System.out.println("Detected failed break, rolling back to " + oldBlockLoc.toString());
 			queue.clear();
-			queue.queue(new RefillHotbarWithType(connection, (short) 274));
-			queue.queue(new PickHotbarItemByType(connection, (short) 274));
+			queue.queue(new RefillHotbarWithType(connection, tool));
+			queue.queue(new PickHotbarItemByType(connection, tool));
 			int index = lastLocations.indexOf(oldBlockLoc);
 			for (int i = index; i < lastLocations.size(); i++) {
 				// maybe we hit something harder, so let's take extra time

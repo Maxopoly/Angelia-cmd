@@ -1,5 +1,6 @@
 package com.github.maxopoly.angelia_cmd;
 
+import com.github.maxopoly.angelia_cmd.command_handling.CommandHandler;
 import com.github.maxopoly.angeliacore.actions.ActionQueue;
 import com.github.maxopoly.angeliacore.actions.actions.DigDown;
 import com.github.maxopoly.angeliacore.connection.ServerConnection;
@@ -21,11 +22,13 @@ public class CommandLineReader {
 
 	private Logger logger;
 	private ServerConnection connection;
+	private CommandHandler cmdHandler;
 
-	public CommandLineReader(Logger logger, ServerConnection connection) {
+	public CommandLineReader(Logger logger, ServerConnection connection, CommandHandler cmdHandler) {
 		this.logger = logger;
 		this.connection = connection;
 		this.mode = Mode.CHAT;
+		this.cmdHandler = cmdHandler;
 	}
 
 	public void start() {
@@ -51,7 +54,7 @@ public class CommandLineReader {
 				continue;
 			}
 			if (mode == Mode.COMMAND) {
-				handleCommand(msg);
+				cmdHandler.handle(msg, connection);
 			}
 		}
 	}

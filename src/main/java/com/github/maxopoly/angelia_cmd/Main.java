@@ -1,14 +1,15 @@
 package com.github.maxopoly.angelia_cmd;
 
+import com.github.maxopoly.angelia_cmd.command_handling.CommandHandler;
 import com.github.maxopoly.angelia_cmd.listener.ChatListener;
 import com.github.maxopoly.angeliacore.connection.ServerConnection;
-import com.github.maxopoly.angeliacore.model.MovementDirection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Main {
 	private static Logger logger = LogManager.getLogger("Main");
 	private static ServerConnection connection;
+	private static CommandHandler cmdHandler;
 
 	public static void main(String[] args) {
 		connection = StartUpCommandParser.parse(args, logger);
@@ -31,15 +32,9 @@ public class Main {
 				e.printStackTrace();
 			}
 		}
-		queueTestDigging();
-		CommandLineReader reader = new CommandLineReader(logger, connection);
+		cmdHandler = new CommandHandler(logger);
+		CommandLineReader reader = new CommandLineReader(logger, connection, cmdHandler);
 		reader.start();
-	}
-
-	private static void queueTestDigging() {
-		// new DiggingBot(connection, -9168, -9137, 9184, 9199, 39, MovementDirection.SOUTH, MovementDirection.WEST, true);
-		new BranchMiningBot(connection, 9913, 9963, 9574, 9624, 91, MovementDirection.NORTH, MovementDirection.EAST, true,
-				(short) 257);
 	}
 
 	private static void registerListeners() {
