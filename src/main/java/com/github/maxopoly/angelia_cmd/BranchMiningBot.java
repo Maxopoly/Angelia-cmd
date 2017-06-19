@@ -2,7 +2,7 @@ package com.github.maxopoly.angelia_cmd;
 
 import com.github.maxopoly.angeliacore.actions.ActionQueue;
 import com.github.maxopoly.angeliacore.actions.CodeAction;
-import com.github.maxopoly.angeliacore.actions.actions.Eat;
+import com.github.maxopoly.angeliacore.actions.actions.DetectAndEatFood;
 import com.github.maxopoly.angeliacore.actions.actions.Logoff;
 import com.github.maxopoly.angeliacore.actions.actions.LookAtAndBreakBlock;
 import com.github.maxopoly.angeliacore.actions.actions.LookAtAndPlaceBlock;
@@ -127,8 +127,7 @@ public class BranchMiningBot implements AngeliaListener {
 		if (e.getNewValue() > 7) {
 			return;
 		}
-		queue.queue(new PickHotbarItemByType(connection, Material.BREAD)); // bread
-		queue.queue(new Eat(connection, 20));
+		queue.queue(new DetectAndEatFood(connection));
 	}
 
 	@AngeliaEventHandler

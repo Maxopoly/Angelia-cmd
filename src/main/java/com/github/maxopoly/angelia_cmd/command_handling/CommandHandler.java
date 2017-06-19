@@ -1,9 +1,11 @@
 package com.github.maxopoly.angelia_cmd.command_handling;
 
+import com.github.maxopoly.angelia_cmd.command_handling.commands.DigDownCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.ExecutePluginCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.GetNameCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.GetPlayerStatsCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.ListPluginCommand;
+import com.github.maxopoly.angelia_cmd.command_handling.commands.LogoutCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.MoveToCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.StopPluginCommand;
 import com.github.maxopoly.angeliacore.connection.ServerConnection;
@@ -26,28 +28,36 @@ public class CommandHandler {
 	/**
 	 * Registers all native commands
 	 */
-	private void registerCommands() {
+	private synchronized void registerCommands() {
 		registerCommand(new MoveToCommand());
 		registerCommand(new ListPluginCommand());
 		registerCommand(new ExecutePluginCommand());
 		registerCommand(new GetNameCommand());
 		registerCommand(new StopPluginCommand());
 		registerCommand(new GetPlayerStatsCommand());
+		registerCommand(new DigDownCommand());
+		registerCommand(new LogoutCommand());
 		logger.info("Loaded total of " + commands.values().size() + " commands");
 	}
 
-	public void registerCommand(Command command) {
+	public synchronized void registerCommand(Command command) {
 		commands.put(command.getIdentifier().toLowerCase(), command);
-		for (String alt : command.getAlternativeIdentifiers()) {
-			commands.put(alt.toLowerCase(), command);
+		if (command.getAlternativeIdentifiers() != null) {
+			for (String alt : command.getAlternativeIdentifiers()) {
+				commands.put(alt.toLowerCase(), command);
+			}
 		}
 	}
 
-	public void handle(String input, ServerConnection connection) {
+	public synchronized void handle(String input, ServerConnection connection) {
 		if (input == null || input.equals("")) {
 			return;
 		}
 		String[] args = input.split(" ");
+		if (args[0].toLowerCase().equals("help")) {
+			help();
+			return;
+		}
 		Command comm = commands.get(args[0]);
 		if (comm == null) {
 			logger.warn(args[0] + " is not a valid command");
@@ -69,6 +79,12 @@ public class CommandHandler {
 			return;
 		}
 		comm.execute(args, connection);
+	}
+
+	public void help() {
+		for (Command comm : commands.values()) {
+			logger.info(" - " + comm.getUsage());
+		}
 	}
 
 }

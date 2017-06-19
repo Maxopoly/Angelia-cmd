@@ -2,7 +2,7 @@ package com.github.maxopoly.angelia_cmd;
 
 import com.github.maxopoly.angeliacore.actions.ActionQueue;
 import com.github.maxopoly.angeliacore.actions.actions.BreakBlock;
-import com.github.maxopoly.angeliacore.actions.actions.Eat;
+import com.github.maxopoly.angeliacore.actions.actions.DetectAndEatFood;
 import com.github.maxopoly.angeliacore.actions.actions.MoveTo;
 import com.github.maxopoly.angeliacore.actions.actions.PlaceBlock;
 import com.github.maxopoly.angeliacore.actions.actions.inventory.ChangeSelectedItem;
@@ -69,7 +69,7 @@ public class WheatHarvest implements AngeliaListener {
 			return;
 		}
 		queue.queue(new ChangeSelectedItem(connection, foodSlot));
-		queue.queue(new Eat(connection, 20));
+		queue.queue(new DetectAndEatFood(connection));
 	}
 
 }

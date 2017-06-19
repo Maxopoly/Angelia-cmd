@@ -9,11 +9,17 @@ public abstract class Command {
 	private int maxArgs;
 	private String[] alternativeIdentifiers;
 
-	public Command(String identifier, int minArgs, int maxArgs, String... alt) {
+	public Command(String identifier, int minArgs, int maxArgs) {
 		this.identifier = identifier;
 		this.minArgs = minArgs;
 		this.maxArgs = maxArgs;
-		this.alternativeIdentifiers = alt;
+		if (maxArgs < minArgs) {
+			throw new IllegalArgumentException("minArgs can't be bigger than maxArgs");
+		}
+	}
+
+	public Command(String identifier, int minArgs, int maxArgs, String... alt) {
+		this(identifier, minArgs, maxArgs);
 		this.alternativeIdentifiers = alt;
 	}
 
