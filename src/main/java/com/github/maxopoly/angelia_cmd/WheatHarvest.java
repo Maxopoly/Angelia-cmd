@@ -42,8 +42,7 @@ public class WheatHarvest implements AngeliaListener {
 	public void queueEmpty(ActionQueueEmptiedEvent e) {
 		if (locIterator.hasNext()) {
 			Location target = locIterator.next();
-			queue.queue(new MoveTo(connection, target.getBlockCenterXZ(), MoveTo.SPRINTING_SPEED, connection
-					.getTicksPerSecond()));
+			queue.queue(new MoveTo(connection, target.getBlockCenterXZ(), MoveTo.SPRINTING_SPEED));
 			Location wheatLoc = new Location((int) target.getX(), (int) target.getY() + 1, (int) target.getZ());
 			queue.queue(new BreakBlock(connection, wheatLoc, 1, BlockFace.TOP));
 			PlayerInventory inv = connection.getPlayerStatus().getPlayerInventory();

@@ -23,7 +23,7 @@ public class MoveToCommand extends Command {
 			return;
 		}
 		connection.getActionQueue().queue(
-				new MoveTo(connection, new Location(x, y, z), MoveTo.SPRINTING_SPEED, connection.getTicksPerSecond()));
+				new MoveTo(connection, new Location(x, y, z).getBlockCenterXZ(), MoveTo.SPRINTING_SPEED));
 		connection.getLogger().info("Queued movement to " + x + " " + y + " " + z);
 	}
 

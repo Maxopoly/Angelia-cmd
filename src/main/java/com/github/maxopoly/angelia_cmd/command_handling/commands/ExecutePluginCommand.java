@@ -23,7 +23,7 @@ public class ExecutePluginCommand extends Command {
 
 	@Override
 	public String getUsage() {
-		return "runplugin <pluginName> [args1] [args2] [...]";
+		return "runplugin <pluginName> [-argsName1] [argsValue1] [...]";
 	}
 
 }

@@ -4,6 +4,7 @@ import com.github.maxopoly.angelia_cmd.command_handling.commands.DigDownCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.ExecutePluginCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.GetNameCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.GetPlayerStatsCommand;
+import com.github.maxopoly.angelia_cmd.command_handling.commands.HelpPluginCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.ListPluginCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.LogoutCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.MoveToCommand;
@@ -11,6 +12,7 @@ import com.github.maxopoly.angelia_cmd.command_handling.commands.StopPluginComma
 import com.github.maxopoly.angeliacore.connection.ServerConnection;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import org.apache.logging.log4j.Logger;
 
@@ -37,6 +39,7 @@ public class CommandHandler {
 		registerCommand(new GetPlayerStatsCommand());
 		registerCommand(new DigDownCommand());
 		registerCommand(new LogoutCommand());
+		registerCommand(new HelpPluginCommand());
 		logger.info("Loaded total of " + commands.values().size() + " commands");
 	}
 
@@ -82,7 +85,8 @@ public class CommandHandler {
 	}
 
 	public void help() {
-		for (Command comm : commands.values()) {
+		// turn into hashset to filter out duplicates
+		for (Command comm : new HashSet<Command>(commands.values())) {
 			logger.info(" - " + comm.getUsage());
 		}
 	}
