@@ -15,7 +15,7 @@ public class ChatListener implements AngeliaListener {
 
 	@AngeliaEventHandler
 	public void chatMessageReceived(ChatMessageReceivedEvent e) {
-		logger.info(e.getMessage());
+		logger.info("[CHAT] " + e.getMessage());
 	}
 
 }
