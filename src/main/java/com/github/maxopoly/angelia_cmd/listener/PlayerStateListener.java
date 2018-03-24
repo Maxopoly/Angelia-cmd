@@ -31,5 +31,8 @@ public class PlayerStateListener implements AngeliaListener {
 						+ formatter.format(e.getNewValue()));
 			}
 		}
+		if (e.getNewValue() <= 0) {
+			logger.info("YOU ARE DEAD!");
+		}
 	}
 }

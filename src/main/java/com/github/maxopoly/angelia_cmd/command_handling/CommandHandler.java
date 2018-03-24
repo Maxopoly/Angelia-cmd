@@ -56,6 +56,7 @@ public class CommandHandler {
 		if (input == null || input.equals("")) {
 			return;
 		}
+		connection.getLogger().info("INPUT: " + input);
 		String[] args = input.split(" ");
 		if (args[0].toLowerCase().equals("help")) {
 			help();
