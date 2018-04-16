@@ -6,3 +6,6 @@
 dependency-reduced-pom.xml
 start.sh
 *.sh
+*.bat
+/angeliaData/
+/plugins/

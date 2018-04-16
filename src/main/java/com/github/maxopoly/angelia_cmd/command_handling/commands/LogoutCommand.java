@@ -6,7 +6,7 @@ import com.github.maxopoly.angeliacore.connection.ServerConnection;
 
 public class LogoutCommand extends Command {
 	public LogoutCommand() {
-		super("logout", 0, 0, "exit", "quit");
+		super("logout", 0, 0, "exit", "quit", "stop");
 	}
 
 	@Override

@@ -14,8 +14,7 @@ public class GetPlayerStatsCommand extends Command {
 	public void execute(String[] args, ServerConnection connection) {
 		PlayerStatus status = connection.getPlayerStatus();
 		connection.getLogger().info(status.getLocationString());
-		connection.getLogger().info(status.getHealthString());
-		connection.getLogger().info(status.getXPString());
+		//TODO
 	}
 
 	@Override

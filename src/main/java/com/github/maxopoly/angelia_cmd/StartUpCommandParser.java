@@ -4,6 +4,7 @@ import com.github.maxopoly.angeliacore.SessionManager;
 import com.github.maxopoly.angeliacore.connection.ServerConnection;
 import com.github.maxopoly.angeliacore.connection.login.AuthenticationHandler;
 import java.io.Console;
+import java.io.File;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -21,14 +22,19 @@ public class StartUpCommandParser {
 		options.addOption("password", true, "Password");
 		options.addOption("ip", true, "Server IP");
 		options.addOption("port", true, "Server port");
+		options.addOption("saveFile", true, "Auth token save file");
 	}
 
 	public static ServerConnection parse(String[] args, Logger logger) {
 		CommandLineParser parser = new DefaultParser();
-		SessionManager sessionManager = new SessionManager(logger, true);
 		Console c = System.console();
 		try {
 			CommandLine cmd = parser.parse(options, args);
+			File saveFile = null;
+			if (cmd.hasOption("saveFile")) {
+				saveFile = new File(cmd.getOptionValue("saveFile"));
+			}
+			SessionManager sessionManager = new SessionManager(logger, saveFile);
 			AuthenticationHandler auth;
 			String userName;
 			if (!cmd.hasOption("user")) {
@@ -40,7 +46,7 @@ public class StartUpCommandParser {
 			} else {
 				userName = cmd.getOptionValue("user");
 			}
-			auth = sessionManager.getAccount(userName.toLowerCase());
+			auth = sessionManager.getAccountByEmail(userName);
 			if (auth == null) {
 				String password;
 				if (!cmd.hasOption("password")) {
@@ -58,6 +64,9 @@ public class StartUpCommandParser {
 					logger.info("Wrong password");
 					return null;
 				}
+			}
+			else {
+				logger.info("Found valid auth for " + userName + " in auth file, reusing it");
 			}
 			String serverIP;
 			String portString;
