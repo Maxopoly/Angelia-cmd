@@ -7,7 +7,7 @@ git stash -a
 git checkout master
 git pull https://github.com/Maxopoly/Angelia-core.git master:master
 mvn clean package install
-cd ../Angelia-core
+cd ../Angelia-cmd
 git stash -a
 git checkout master
 git pull https://github.com/Maxopoly/Angelia-cmd.git master:master
