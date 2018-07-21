@@ -4,7 +4,7 @@
 
 	<groupId>com.github.maxopoly</groupId>
 	<artifactId>angelia-cmd</artifactId>
-	<version>1.0.01</version>
+	<version>1.0.02</version>
 	<packaging>jar</packaging>
 
 	<name>Angelia-cmd</name>
@@ -35,7 +35,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
-					<finalName>Angelia-Cmd</finalName>
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
