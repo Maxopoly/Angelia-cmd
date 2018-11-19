@@ -27,4 +27,12 @@ public class Main {
 		CommandLineReader reader = new CommandLineReader(logger, connManager, connection.getPlayerName(), cmdHandler);
 		reader.start();
 	}
+	
+	public static CommandHandler getCommandHandler() {
+		return cmdHandler;
+	}
+	
+	public static ActiveConnectionManager getConnectionManager() {
+		return connManager;
+	}
 }

@@ -53,6 +53,21 @@ public class CommandHandler {
 			}
 		}
 	}
+	
+	public synchronized void unregisterCommand(Command command) {
+		String key = command.getIdentifier().toLowerCase();
+		if (commands.get(key) == command) {
+			commands.remove(key);
+		}
+		if (command.getAlternativeIdentifiers() != null) {
+			for (String alt : command.getAlternativeIdentifiers()) {
+				key = alt.toLowerCase();
+				if (commands.get(key) == command) {
+					commands.remove(key);
+				}
+			}
+		}
+	}
 
 	public synchronized void handle(String input, ServerConnection connection) {
 		if (input == null || input.equals("")) {
