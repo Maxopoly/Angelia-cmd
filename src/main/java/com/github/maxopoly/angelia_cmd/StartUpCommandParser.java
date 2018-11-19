@@ -15,7 +15,8 @@ import org.apache.logging.log4j.Logger;
 public class StartUpCommandParser {
 
 	private static Options options;
-
+	private String cmdToRun;
+	
 	static {
 		options = new Options();
 		options.addOption("user", true, "Username");
@@ -23,14 +24,18 @@ public class StartUpCommandParser {
 		options.addOption("ip", true, "Server IP");
 		options.addOption("port", true, "Server port");
 		options.addOption("saveFile", true, "Auth token save file");
+		options.addOption("cmd", true, "Command to run once client is fully connected");
 	}
 
-	public static ServerConnection parse(String[] args, Logger logger) {
+	public ServerConnection parse(String[] args, Logger logger) {
 		CommandLineParser parser = new DefaultParser();
 		Console c = System.console();
 		try {
 			CommandLine cmd = parser.parse(options, args);
 			File saveFile = null;
+			if (cmd.hasOption("cmd")) {
+				cmdToRun = cmd.getOptionValue("cmd");
+			}
 			if (cmd.hasOption("saveFile")) {
 				saveFile = new File(cmd.getOptionValue("saveFile"));
 			}
@@ -100,5 +105,9 @@ public class StartUpCommandParser {
 			logger.error("Failed to parse input", e);
 			return null;
 		}
+	}
+	
+	public String getCmdToRun() {
+		return cmdToRun;
 	}
 }

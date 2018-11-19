@@ -15,7 +15,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		connManager = ActiveConnectionManager.getInstance();
-		ServerConnection connection = StartUpCommandParser.parse(args, logger);
+		StartUpCommandParser parser = new StartUpCommandParser();
+		ServerConnection connection = parser.parse(args, logger);
 		if (connection == null) {
 			System.exit(0);
 			return;
@@ -26,6 +27,7 @@ public class Main {
 		cmdHandler = new CommandHandler(logger);
 		CommandLineReader reader = new CommandLineReader(logger, connManager, connection.getPlayerName(), cmdHandler);
 		reader.start();
+		cmdHandler.handle(parser.getCmdToRun(), connection);
 	}
 	
 	public static CommandHandler getCommandHandler() {
