@@ -26,8 +26,8 @@ public class Main {
 		connection.getEventHandler().registerListener(new PlayerStateListener(logger));
 		cmdHandler = new CommandHandler(logger);
 		CommandLineReader reader = new CommandLineReader(logger, connManager, connection.getPlayerName(), cmdHandler);
-		reader.start();
 		cmdHandler.handle(parser.getCmdToRun(), connection);
+		reader.start();
 	}
 	
 	public static CommandHandler getCommandHandler() {
