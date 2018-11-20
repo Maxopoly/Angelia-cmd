@@ -16,7 +16,7 @@ public class PlayerStateListener implements AngeliaListener {
 		this.formatter = new DecimalFormat("#.###");
 	}
 
-	@AngeliaEventHandler
+	@AngeliaEventHandler(autoTransfer = true)
 	public void chatMessageReceived(HealthChangeEvent e) {
 		if (e.getNewValue() == e.getOldValue()) {
 			return;

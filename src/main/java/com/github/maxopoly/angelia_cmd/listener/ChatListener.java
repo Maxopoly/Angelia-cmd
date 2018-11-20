@@ -13,7 +13,7 @@ public class ChatListener implements AngeliaListener {
 		this.logger = logger;
 	}
 
-	@AngeliaEventHandler
+	@AngeliaEventHandler(autoTransfer = true)
 	public void chatMessageReceived(ChatMessageReceivedEvent e) {
 		logger.info("[CHAT] " + e.getMessage());
 	}

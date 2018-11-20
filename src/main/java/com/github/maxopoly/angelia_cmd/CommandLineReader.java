@@ -27,7 +27,10 @@ public class CommandLineReader {
 		this.connectionMan = connectionMan;
 		this.playerName = playerName;
 		this.mode = Mode.COMMAND;
-		getConnection().getLogger().info("--- Set console to command mode");
+		ServerConnection conn = getConnection();
+		if (conn != null) {
+			getConnection().getLogger().info("--- Set console to command mode");
+		}
 		this.cmdHandler = cmdHandler;
 	}
 
@@ -39,6 +42,9 @@ public class CommandLineReader {
 		}
 		while (true) {
 			String msg = c.readLine("");
+			if (msg == null) {
+				continue;
+			}
 			if (msg.equals("++")) {
 				if (mode == Mode.CHAT) {
 					mode = Mode.COMMAND;

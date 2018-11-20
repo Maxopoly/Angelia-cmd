@@ -21,7 +21,7 @@ public class Main {
 			System.exit(0);
 			return;
 		}
-		connManager.initConnection(connection, false, null);
+		connManager.initConnection(connection, null);
 		connection.getEventHandler().registerListener(new ChatListener(logger));
 		connection.getEventHandler().registerListener(new PlayerStateListener(logger));
 		cmdHandler = new CommandHandler(logger);

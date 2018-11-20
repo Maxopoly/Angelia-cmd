@@ -73,6 +73,10 @@ public class CommandHandler {
 		if (input == null || input.equals("")) {
 			return;
 		}
+		if (connection == null) {
+			System.out.println("Currently not connected to a server, could not process command");
+			return;
+		}
 		connection.getLogger().info("INPUT: " + input);
 		String[] args = input.split(" ");
 		if (args[0].toLowerCase().equals("help")) {
