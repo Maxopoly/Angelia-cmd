@@ -85,6 +85,7 @@ public class ExecutePluginCommand extends Command {
 				result.put(key, value);
 				key = "";
 				value = "";
+				atValue = false;
 				break;
 			case '=':
 				if (escaping || quoting) {
