@@ -18,7 +18,7 @@ public class HelpPluginCommand extends Command {
 			connection.getLogger().warn("No plugin with the name " + pluginName + " could be found");
 			return;
 		}
-		plugin.printHelp(connection.getLogger());
+		connection.getLogger().info(plugin.getName() + " (" + plugin.getVersion() + "): " + plugin.getDescription());
 	}
 
 	@Override

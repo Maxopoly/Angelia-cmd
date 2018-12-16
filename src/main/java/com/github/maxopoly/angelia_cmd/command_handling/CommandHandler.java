@@ -1,5 +1,6 @@
 package com.github.maxopoly.angelia_cmd.command_handling;
 
+import com.github.maxopoly.angelia_cmd.Main;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.DigDownCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.ExecutePluginCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.GetNameCommand;
@@ -112,5 +113,6 @@ public class CommandHandler {
 			logger.info(" - " + comm.getUsage());
 		}
 	}
+
 
 }
