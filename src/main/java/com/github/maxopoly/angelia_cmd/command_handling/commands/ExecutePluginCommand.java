@@ -40,6 +40,12 @@ public class ExecutePluginCommand extends Command {
 		boolean atValue = false;
 		boolean quoting = false;
 		while (true) {
+			if (index >= input.length()) {
+				if (atValue) {
+					result.put(key, value);
+				}
+				break;
+			}
 			char current = input.charAt(index);
 			switch (current) {
 			case '\\':
@@ -115,8 +121,7 @@ public class ExecutePluginCommand extends Command {
 				escaping = false;
 				break;
 			}
-			return result;
-
 		}
+		return result;
 	}
 }
