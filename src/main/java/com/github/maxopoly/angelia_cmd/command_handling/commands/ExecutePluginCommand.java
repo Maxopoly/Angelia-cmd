@@ -33,13 +33,14 @@ public class ExecutePluginCommand extends Command {
 
 	private Map<String, String> parseParameter(Logger logger, String input) {
 		Map<String, String> result = new HashMap<String, String>();
-		int index = 0;
+		int index = -1;
 		String key = "";
 		String value = "";
 		boolean escaping = false;
 		boolean atValue = false;
 		boolean quoting = false;
 		while (true) {
+			++index;
 			if (index >= input.length()) {
 				if (atValue) {
 					result.put(key, value);
