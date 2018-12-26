@@ -12,8 +12,13 @@ public class StopPluginCommand extends Command {
 	@Override
 	public void execute(String[] args, ServerConnection connection) {
 		String pluginName = args[0];
-		int stopped = connection.getPluginManager().stopPlugin(pluginName);
-		connection.getLogger().info(stopped + " plugin(s) were stopped");
+		boolean stopped = connection.getPluginManager().stopPlugin(pluginName);
+		if (stopped) {
+			connection.getLogger().info("Plugin " + pluginName + " was stopped");
+		}
+		else {
+			connection.getLogger().info("No plugin with the given name was found");
+		}
 	}
 
 	@Override

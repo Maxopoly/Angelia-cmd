@@ -1,9 +1,7 @@
 package com.github.maxopoly.angelia_cmd.command_handling.commands;
 
 import com.github.maxopoly.angelia_cmd.command_handling.Command;
-import com.github.maxopoly.angeliacore.actions.actions.MoveTo;
 import com.github.maxopoly.angeliacore.connection.ServerConnection;
-import com.github.maxopoly.angeliacore.model.location.Location;
 
 public class ReloadConfigCommand extends Command {
 

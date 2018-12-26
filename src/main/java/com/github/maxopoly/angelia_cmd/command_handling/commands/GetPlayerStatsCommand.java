@@ -13,6 +13,7 @@ public class GetPlayerStatsCommand extends Command {
 	@Override
 	public void execute(String[] args, ServerConnection connection) {
 		ThePlayer status = connection.getPlayerStatus();
+		connection.getLogger().info("Loc: " + status.getLocation().toString());
 		//TODO
 	}
 

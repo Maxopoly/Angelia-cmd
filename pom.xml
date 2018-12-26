@@ -50,7 +50,7 @@
 		<dependency>
 			<groupId>com.github.maxopoly</groupId>
 			<artifactId>angelia-core</artifactId>
-			<version>1.0.09</version>
+			<version>1.1.00</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-cli</groupId>
