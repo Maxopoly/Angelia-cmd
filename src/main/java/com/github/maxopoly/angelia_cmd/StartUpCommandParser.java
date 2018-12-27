@@ -16,7 +16,7 @@ public class StartUpCommandParser {
 
 	private static Options options;
 	private String cmdToRun;
-	
+
 	static {
 		options = new Options();
 		options.addOption("user", true, "Username");
@@ -56,8 +56,8 @@ public class StartUpCommandParser {
 				String password;
 				if (!cmd.hasOption("password")) {
 					if (c == null) {
-						logger
-								.info("No password supplied, no valid auth token was saved and no console to enter a password manually was found.");
+						logger.info(
+								"No password supplied, no valid auth token was saved and no console to enter a password manually was found.");
 						return null;
 					}
 					password = new String(c.readPassword("Enter your minecraft password:\n"));
@@ -69,8 +69,7 @@ public class StartUpCommandParser {
 					logger.info("Wrong password");
 					return null;
 				}
-			}
-			else {
+			} else {
 				logger.info("Found valid auth for " + userName + " in auth file, reusing it");
 			}
 			String serverIP;
@@ -106,7 +105,7 @@ public class StartUpCommandParser {
 			return null;
 		}
 	}
-	
+
 	public String getCmdToRun() {
 		return cmdToRun;
 	}

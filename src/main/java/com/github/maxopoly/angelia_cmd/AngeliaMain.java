@@ -8,7 +8,7 @@ import com.github.maxopoly.angeliacore.connection.ServerConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Main {
+public class AngeliaMain {
 	private static Logger logger = LogManager.getLogger("Main");
 	private static CommandHandler cmdHandler;
 	private static ActiveConnectionManager connManager;

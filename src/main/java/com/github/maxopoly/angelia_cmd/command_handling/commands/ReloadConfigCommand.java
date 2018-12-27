@@ -12,7 +12,6 @@ public class ReloadConfigCommand extends Command {
 	@Override
 	public void execute(String[] args, ServerConnection connection) {
 		connection.getConfig().reloadConfig();
-		System.out.println(connection.getConfig().holdBlockModel());
 	}
 
 	@Override
