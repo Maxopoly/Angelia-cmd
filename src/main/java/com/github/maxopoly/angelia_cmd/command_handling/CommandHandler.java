@@ -1,6 +1,5 @@
 package com.github.maxopoly.angelia_cmd.command_handling;
 
-import com.github.maxopoly.angelia_cmd.AngeliaMain;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.DigDownCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.ExecutePluginCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.GetNameCommand;
@@ -10,6 +9,7 @@ import com.github.maxopoly.angelia_cmd.command_handling.commands.ListPluginComma
 import com.github.maxopoly.angelia_cmd.command_handling.commands.LogoutCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.MoveToCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.ReloadConfigCommand;
+import com.github.maxopoly.angelia_cmd.command_handling.commands.RespawnCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.StopPluginCommand;
 import com.github.maxopoly.angeliacore.connection.ServerConnection;
 import java.util.Arrays;
@@ -43,6 +43,7 @@ public class CommandHandler {
 		registerCommand(new LogoutCommand());
 		registerCommand(new HelpPluginCommand());
 		registerCommand(new ReloadConfigCommand());
+		registerCommand(new RespawnCommand());
 		logger.info("Loaded total of " + commands.values().size() + " commands");
 	}
 

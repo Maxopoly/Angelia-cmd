@@ -1,10 +1,11 @@
 package com.github.maxopoly.angelia_cmd;
 
 import com.github.maxopoly.angelia_cmd.command_handling.CommandHandler;
-import com.github.maxopoly.angelia_cmd.listener.ChatListener;
-import com.github.maxopoly.angelia_cmd.listener.PlayerStateListener;
 import com.github.maxopoly.angeliacore.connection.ActiveConnectionManager;
 import com.github.maxopoly.angeliacore.connection.ServerConnection;
+
+import java.util.HashMap;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,8 +23,7 @@ public class AngeliaMain {
 			return;
 		}
 		connManager.initConnection(connection, null);
-		connection.getEventHandler().registerListener(new ChatListener(logger));
-		connection.getEventHandler().registerListener(new PlayerStateListener(logger));
+		connection.getPluginManager().executePlugin("AngeliaCmd", new HashMap<String, String>());
 		cmdHandler = new CommandHandler(logger);
 		CommandLineReader reader = new CommandLineReader(logger, connManager, connection.getPlayerName(), cmdHandler);
 		cmdHandler.handle(parser.getCmdToRun(), connection);
