@@ -7,3 +7,5 @@ dependency-reduced-pom.xml
 start.sh
 /angeliaData/
 /plugins/
+/\.idea/
+*.iml
