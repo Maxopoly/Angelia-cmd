@@ -55,7 +55,7 @@ public class CommandHandler {
 			}
 		}
 	}
-	
+
 	public synchronized void unregisterCommand(Command command) {
 		String key = command.getIdentifier().toLowerCase();
 		if (commands.get(key) == command) {

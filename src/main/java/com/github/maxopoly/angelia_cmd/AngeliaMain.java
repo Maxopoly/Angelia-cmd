@@ -29,11 +29,11 @@ public class AngeliaMain {
 		cmdHandler.handle(parser.getCmdToRun(), connection);
 		reader.start();
 	}
-	
+
 	public static CommandHandler getCommandHandler() {
 		return cmdHandler;
 	}
-	
+
 	public static ActiveConnectionManager getConnectionManager() {
 		return connManager;
 	}

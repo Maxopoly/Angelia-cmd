@@ -7,7 +7,7 @@ import com.github.maxopoly.angeliacore.plugin.AngeliaPlugin;
 
 @AngeliaLoad(name = "AngeliaCmd", version = "1.0.03")
 public class AngeliaCmdPlugin extends AngeliaPlugin {
-	
+
 	private ChatListener chatListener;
 	private PlayerStateListener stateListener;
 
