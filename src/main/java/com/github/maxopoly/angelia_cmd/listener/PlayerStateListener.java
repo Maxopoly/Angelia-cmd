@@ -1,10 +1,12 @@
 package com.github.maxopoly.angelia_cmd.listener;
 
+import java.text.DecimalFormat;
+
+import org.apache.logging.log4j.Logger;
+
 import com.github.maxopoly.angeliacore.event.AngeliaEventHandler;
 import com.github.maxopoly.angeliacore.event.AngeliaListener;
-import com.github.maxopoly.angeliacore.event.events.HealthChangeEvent;
-import java.text.DecimalFormat;
-import org.apache.logging.log4j.Logger;
+import com.github.maxopoly.angeliacore.event.events.player.HealthChangeEvent;
 
 public class PlayerStateListener implements AngeliaListener {
 
