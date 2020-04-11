@@ -1,9 +1,10 @@
 package com.github.maxopoly.angelia_cmd.listener;
 
+import org.apache.logging.log4j.Logger;
+
 import com.github.maxopoly.angeliacore.event.AngeliaEventHandler;
 import com.github.maxopoly.angeliacore.event.AngeliaListener;
-import com.github.maxopoly.angeliacore.event.events.ChatMessageReceivedEvent;
-import org.apache.logging.log4j.Logger;
+import com.github.maxopoly.angeliacore.event.events.player.ChatMessageReceivedEvent;
 
 public class ChatListener implements AngeliaListener {
 
