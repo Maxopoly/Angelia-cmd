@@ -7,7 +7,7 @@ import com.github.maxopoly.angeliacore.model.ThePlayer;
 public class GetPlayerStatsCommand extends Command {
 
 	public GetPlayerStatsCommand() {
-		super("stats", 0, 0, "playerstats");
+		super("stats", 0, 0, "playerstats", "status");
 	}
 
 	@Override

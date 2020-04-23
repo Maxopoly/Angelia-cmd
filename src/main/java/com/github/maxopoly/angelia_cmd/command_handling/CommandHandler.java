@@ -1,10 +1,12 @@
 package com.github.maxopoly.angelia_cmd.command_handling;
 
+import com.github.maxopoly.angelia_cmd.command_handling.commands.ClearActionQueueCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.DigDownCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.ExecutePluginCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.GetNameCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.GetPlayerStatsCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.HelpPluginCommand;
+import com.github.maxopoly.angelia_cmd.command_handling.commands.JumpCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.ListPluginCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.LogoutCommand;
 import com.github.maxopoly.angelia_cmd.command_handling.commands.MoveToCommand;
@@ -25,7 +27,7 @@ public class CommandHandler {
 	private Logger logger;
 
 	public CommandHandler(Logger logger) {
-		this.commands = new HashMap<String, Command>();
+		this.commands = new HashMap<>();
 		this.logger = logger;
 		registerCommands();
 	}
@@ -46,6 +48,8 @@ public class CommandHandler {
 		registerCommand(new ReloadConfigCommand());
 		registerCommand(new RespawnCommand());
 		registerCommand(new ShowActionQueueCommand());
+		registerCommand(new JumpCommand());
+		registerCommand(new ClearActionQueueCommand());
 		logger.info("Loaded total of " + commands.values().size() + " commands");
 	}
 
@@ -78,6 +82,7 @@ public class CommandHandler {
 			return;
 		}
 		if (connection == null) {
+			//no connection object available to provide a logger, so use sysout
 			System.out.println("Currently not connected to a server, could not process command");
 			return;
 		}
